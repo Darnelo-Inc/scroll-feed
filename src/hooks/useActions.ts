@@ -1,7 +1,10 @@
 import { bindActionCreators } from "@reduxjs/toolkit"
 import { useAppDispatch } from "./useRedux"
+import { postsSlice } from "../store/reducers/postsSlice"
 
-const actions = {}
+const actions = {
+  ...postsSlice.actions,
+}
 
 export const useActions = () => {
   const dispatch = useAppDispatch()
