@@ -13,3 +13,7 @@ export interface IPost {
 export interface IMenuProps {
   mode: MenuMode | undefined
 }
+
+export interface IModal {
+  visible: boolean
+}

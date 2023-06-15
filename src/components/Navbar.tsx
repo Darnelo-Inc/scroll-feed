@@ -2,8 +2,11 @@ import { Button, Layout } from "antd"
 import { FC } from "react"
 import { Link } from "react-router-dom"
 import css from "../styles/Header.module.css"
+import { useActions } from "hooks/useActions"
 
 const Navbar: FC = () => {
+  const { toggleVisible } = useActions()
+
   return (
     <nav className={css.navbar}>
       <Layout>
@@ -12,6 +15,14 @@ const Navbar: FC = () => {
             <h3 className={css["brand-font"]}>Scroll Feed</h3>
           </div>
           <div className={css.navMenu}>
+            <Button
+              className={css.navItem}
+              type="default"
+              onClick={() => toggleVisible()}
+            >
+              Create post
+            </Button>
+
             <Button className={css.navItem} type="default">
               <Link className={css.link} to="/">
                 Posts

@@ -2,6 +2,15 @@
   max-width: 800px;
 
   background-color: white;
+  border-radius: 0.25rem;
+
+  transition: background 0.1s linear, box-shadow 0.1s linear;
+}
+
+.card:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  background-color: rgb(243 244 246);
+  cursor: pointer;
 }
 
 .center {
