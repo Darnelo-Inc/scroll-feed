@@ -8,7 +8,7 @@ function App() {
     <Layout className="white-bg">
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/scroll-feed" element={<Home />} />
       </Routes>
     </Layout>
   )
