@@ -1,3 +1,5 @@
+import type { MenuMode } from "../../node_modules/rc-menu/lib/interface.d"
+
 export interface IPosts {
   posts: IPost[]
 }
@@ -5,5 +7,9 @@ export interface IPosts {
 export interface IPost {
   id: number
   title: string
-  desc: string
+  body: string
+}
+
+export interface IMenuProps {
+  mode: MenuMode | undefined
 }
