@@ -1,5 +1,5 @@
 import { useState, FC } from "react"
-import { Button, Modal } from "antd"
+import { Modal } from "antd"
 import { useActions } from "hooks/useActions"
 import { useAppSelector } from "hooks/useRedux"
 import { selectModal } from "store/selectors"
@@ -11,14 +11,12 @@ const UIModal: FC = () => {
   const visible = useAppSelector(selectModal)
 
   const [confirmLoading, setConfirmLoading] = useState(false)
-  const [modalText, setModalText] = useState("Content of the modal")
 
   const showModal = () => {
     toggleVisible()
   }
 
   const handleOk = () => {
-    setModalText("The modal will be closed after two seconds")
     setConfirmLoading(true)
     setTimeout(() => {
       toggleVisible()

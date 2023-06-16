@@ -3,13 +3,13 @@ import { useAppSelector } from "../hooks/useRedux"
 import { selectPosts } from "../store/selectors"
 import { useFetchPostsQuery } from "../API/jsonApi"
 import { useActions } from "../hooks/useActions"
-import { Space, Card, Row, Alert } from "antd"
+import { Space, Card, Row, Alert, Spin } from "antd"
 
 import css from "../styles/Home.module.css"
 import UIModal from "components/UIModal"
 
 const Home: FC = () => {
-  const { data: posts_data } = useFetchPostsQuery()
+  const { data: posts_data, isLoading: posts_loading } = useFetchPostsQuery()
 
   const { setPosts } = useActions()
   const posts = useAppSelector(selectPosts)
@@ -17,6 +17,8 @@ const Home: FC = () => {
   useEffect(() => {
     setPosts(posts_data)
   }, [setPosts, posts_data])
+
+  if (posts_loading) return <Spin className={css.center} size="large" />
 
   return (
     <>
