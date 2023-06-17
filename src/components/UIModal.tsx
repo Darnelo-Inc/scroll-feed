@@ -25,7 +25,6 @@ const UIModal: FC = () => {
   }
 
   const handleCancel = () => {
-    console.log("Clicked cancel button")
     toggleVisible()
   }
 

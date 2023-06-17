@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { IPost } from "../models"
+import { IPost, IUser } from "../models"
 
 export const jsonApi = createApi({
   reducerPath: "post",
@@ -8,9 +8,9 @@ export const jsonApi = createApi({
   }),
   tagTypes: ["posts"],
   endpoints: (build) => ({
-    fetchPosts: build.query<IPost[], void>({
-      query: () => ({
-        url: "/posts",
+    fetchPosts: build.query<IPost[], string>({
+      query: (id: string) => ({
+        url: "/posts" + id,
       }),
       providesTags: (_) => ["posts"],
     }),
@@ -26,7 +26,16 @@ export const jsonApi = createApi({
       }),
       invalidatesTags: ["posts"],
     }),
+
+    fetchUsers: build.query<IUser[], void>({
+      query: () => ({ url: "/users" }),
+      transformResponse: (response: any) => {
+        const data = response as IUser[]
+        return data.map(({ id, name }) => ({ id, name }))
+      },
+    }),
   }),
 })
 
-export const { useFetchPostsQuery, useAddPostMutation } = jsonApi
+export const { useFetchPostsQuery, useAddPostMutation, useFetchUsersQuery } =
+  jsonApi

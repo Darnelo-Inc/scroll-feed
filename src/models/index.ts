@@ -17,3 +17,8 @@ export interface IMenuProps {
 export interface IModal {
   visible: boolean
 }
+
+export interface IUser {
+  id: number
+  name: string
+}
