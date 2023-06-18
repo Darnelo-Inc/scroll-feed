@@ -1,7 +1,9 @@
 .card {
   max-width: 800px;
+  margin-bottom: 10px;
 
   background-color: white;
+  border-width: 2px;
   border-radius: 0.25rem;
 
   transition: background 0.1s linear, box-shadow 0.1s linear;

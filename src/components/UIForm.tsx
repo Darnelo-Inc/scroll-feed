@@ -1,20 +1,23 @@
 import { useAddPostMutation } from "API/jsonApi"
-import { Input, Button, Form, notification, message } from "antd"
-import TextArea from "antd/es/input/TextArea"
+import { Input, Button, Form, message } from "antd"
 import { useActions } from "hooks/useActions"
 import { IPost } from "models"
-import { FC, useEffect, useState } from "react"
+import { FC, useState } from "react"
 
 const UIForm: FC = () => {
+  const { toggleVisible } = useActions()
+
   const [post, setPost] = useState<IPost>({ title: "", body: "", id: 1 })
+  const [lock, setLock] = useState<boolean>(false)
+
+  const [addPost] = useAddPostMutation()
+
   const [form] = Form.useForm()
   const [messageApi, contextHolder] = message.useMessage()
 
-  const { toggleVisible } = useActions()
-  const [addPost] = useAddPostMutation()
-
   const handleSubmit = async () => {
     try {
+      setLock(true)
       await addPost(post).unwrap()
       toggleVisible()
       success()
@@ -22,13 +25,15 @@ const UIForm: FC = () => {
       form.resetFields()
     } catch (e) {
       error()
+    } finally {
+      setLock(false)
     }
   }
 
   const success = () => {
     messageApi.open({
       type: "success",
-      content: "Post successfully added",
+      content: "Post successfully added (imitation)",
       style: { marginTop: 50 },
       duration: 2,
     })
@@ -57,7 +62,7 @@ const UIForm: FC = () => {
         <Form.Item
           label="Post title"
           name="title"
-          rules={[{ required: true, message: "Post title is required" }]}
+          rules={[{ required: true, message: "Title is required" }]}
         >
           <Input
             value={post.title}
@@ -68,9 +73,9 @@ const UIForm: FC = () => {
         <Form.Item
           label="Post description"
           name="body"
-          rules={[{ required: true, message: "Post description is required" }]}
+          rules={[{ required: true, message: "Description is required" }]}
         >
-          <TextArea
+          <Input.TextArea
             rows={4}
             placeholder="Type post description here..."
             style={{ maxHeight: "200px" }}
@@ -80,7 +85,12 @@ const UIForm: FC = () => {
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={lock}
+            disabled={lock}
+          >
             Submit
           </Button>
         </Form.Item>

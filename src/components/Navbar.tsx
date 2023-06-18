@@ -17,7 +17,8 @@ const Navbar: FC = () => {
           <div className={css.navMenu}>
             <Button
               className={css.navItem}
-              type="default"
+              danger
+              type="primary"
               onClick={() => toggleVisible()}
             >
               Create post
@@ -27,9 +28,6 @@ const Navbar: FC = () => {
               <Link className={css.link} to="/">
                 Posts
               </Link>
-            </Button>
-            <Button className={css.navItem} danger type="primary">
-              Log out
             </Button>
           </div>
         </Layout.Header>

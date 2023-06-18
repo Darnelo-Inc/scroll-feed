@@ -22,3 +22,7 @@ export interface IUser {
   id: number
   name: string
 }
+
+export interface PostsProps {
+  searchPosts: IPost[]
+}
