@@ -34,8 +34,16 @@ export const jsonApi = createApi({
         return data.map(({ id, name }) => ({ id, name }))
       },
     }),
+
+    fetchPost: build.query<IPost, string>({
+      query: (id: string) => ({ url: `/${id}` }),
+    }),
   }),
 })
 
-export const { useFetchPostsQuery, useAddPostMutation, useFetchUsersQuery } =
-  jsonApi
+export const {
+  useFetchPostsQuery,
+  useAddPostMutation,
+  useFetchUsersQuery,
+  useFetchPostQuery,
+} = jsonApi
