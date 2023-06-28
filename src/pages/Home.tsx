@@ -3,7 +3,7 @@ import { useAppSelector } from "../hooks/useRedux"
 import { selectPosts } from "../store/selectors"
 import { useFetchPostsQuery, useFetchUsersQuery } from "../API/jsonApi"
 import { useActions } from "../hooks/useActions"
-import { Space, Row, Alert, Spin, Select, Input } from "antd"
+import { Space, Row, Spin, Select, Input } from "antd"
 
 import css from "../styles/Home.module.css"
 import UIModal from "components/UIModal"
@@ -11,12 +11,14 @@ import Posts from "components/Posts"
 import UIAlert from "components/UIAlert"
 
 const Home: FC = () => {
-  const posts = useAppSelector(selectPosts)
   const [sort, setSort] = useState<string>("")
+  const [search, setSearch] = useState<string>("")
+
+  const posts = useAppSelector(selectPosts)
+  const { setPosts } = useActions()
+
   const { data: posts_data, isLoading: posts_loading } =
     useFetchPostsQuery(sort)
-
-  const { setPosts } = useActions()
 
   const { data: users_data = [] } = useFetchUsersQuery()
 
@@ -27,8 +29,6 @@ const Home: FC = () => {
   const selectHandler = (value: string) => {
     setSort(value)
   }
-
-  const [search, setSearch] = useState<string>("")
 
   const searchPosts = useMemo(() => {
     return posts?.filter(

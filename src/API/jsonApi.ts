@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import { IPost, IUser } from "../models"
+import { IComment, IPost, IUser } from "../models"
 
 export const jsonApi = createApi({
   reducerPath: "post",
@@ -38,6 +38,23 @@ export const jsonApi = createApi({
     fetchPost: build.query<IPost, string>({
       query: (id: string) => ({ url: `/${id}` }),
     }),
+
+    fetchComments: build.query<IComment[], any>({
+      query: (id: string) => ({
+        url: `/posts/${id}/comments`,
+      }),
+    }),
+
+    postComment: build.mutation<any, any>({
+      query: ({ comment }) => ({
+        url: "/comments",
+        method: "POST",
+        body: JSON.stringify(comment),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      }),
+    }),
   }),
 })
 
@@ -46,4 +63,6 @@ export const {
   useAddPostMutation,
   useFetchUsersQuery,
   useFetchPostQuery,
+  useFetchCommentsQuery,
+  usePostCommentMutation,
 } = jsonApi

@@ -7,14 +7,10 @@ import css from "../styles/Modal.module.css"
 import UIForm from "./UIForm"
 
 const UIModal: FC = () => {
-  const { toggleVisible } = useActions()
-  const visible = useAppSelector(selectModal)
-
   const [confirmLoading, setConfirmLoading] = useState(false)
 
-  const showModal = () => {
-    toggleVisible()
-  }
+  const visible = useAppSelector(selectModal)
+  const { toggleVisible } = useActions()
 
   const handleOk = () => {
     setConfirmLoading(true)

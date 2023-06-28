@@ -26,3 +26,11 @@ export interface IUser {
 export interface PostsProps {
   searchPosts: IPost[]
 }
+
+export interface IComment {
+  postId: number
+  id: number
+  name: string
+  email: string
+  body: string
+}
