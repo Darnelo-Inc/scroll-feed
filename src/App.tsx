@@ -9,8 +9,9 @@ function App() {
     <Layout className="white-bg">
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/:id" element={<PostPage />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/post/:id" element={<PostPage />} />
+        <Route path="/*" element={<Home />} />
       </Routes>
     </Layout>
   )

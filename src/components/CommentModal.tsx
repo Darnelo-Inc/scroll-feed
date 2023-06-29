@@ -4,39 +4,40 @@ import { useActions } from "hooks/useActions"
 import { useAppSelector } from "hooks/useRedux"
 import { selectModal } from "store/selectors"
 import css from "../styles/Modal.module.css"
-import UIForm from "./UIForm"
+import CommentForm from "./CommentForm"
 
-const UIModal: FC = () => {
+const CommentModal: FC = () => {
   const [confirmLoading, setConfirmLoading] = useState(false)
 
-  const visible = useAppSelector(selectModal)
-  const { toggleVisible } = useActions()
+  const { commentModal } = useAppSelector(selectModal)
+  const { toggleCommentModal } = useActions()
 
   const handleOk = () => {
     setConfirmLoading(true)
     setTimeout(() => {
-      toggleVisible()
+      toggleCommentModal()
       setConfirmLoading(false)
     }, 2000)
   }
 
   const handleCancel = () => {
-    toggleVisible()
+    toggleCommentModal()
   }
 
   return (
     <Modal
-      title="Create post"
-      open={visible}
+      title="Add comment to the post"
+      open={commentModal}
       onOk={handleOk}
       confirmLoading={confirmLoading}
       onCancel={handleCancel}
+      centered
       className={css.modal}
       footer={null}
     >
-      <UIForm />
+      <CommentForm />
     </Modal>
   )
 }
 
-export default UIModal
+export default CommentModal

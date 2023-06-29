@@ -1,16 +1,22 @@
-import { useAddPostMutation } from "API/jsonApi"
+import { useAddCommentMutation } from "API/jsonApi"
 import { Input, Button, Form, message } from "antd"
 import { useActions } from "hooks/useActions"
-import { IPost } from "models"
+import { IComment } from "models"
 import { FC, useState } from "react"
 
-const UIForm: FC = () => {
-  const { toggleVisible } = useActions()
+const CommentForm: FC = () => {
+  const { toggleCommentModal } = useActions()
 
-  const [post, setPost] = useState<IPost>({ title: "", body: "", id: 1 })
+  const [comment, setComment] = useState<IComment>({
+    name: "",
+    email: "",
+    body: "",
+    id: 1,
+    postId: 42,
+  })
   const [lock, setLock] = useState<boolean>(false)
 
-  const [addPost] = useAddPostMutation()
+  const [addComment] = useAddCommentMutation()
 
   const [form] = Form.useForm()
   const [messageApi, contextHolder] = message.useMessage()
@@ -18,10 +24,16 @@ const UIForm: FC = () => {
   const handleSubmit = async () => {
     try {
       setLock(true)
-      await addPost(post).unwrap()
-      toggleVisible()
+      await addComment(comment).unwrap()
+      toggleCommentModal()
       success()
-      setPost({ title: "", body: "", id: 1 })
+      setComment({
+        name: "",
+        email: "",
+        body: "",
+        id: 1,
+        postId: 42,
+      })
       form.resetFields()
     } catch (e) {
       error()
@@ -33,7 +45,7 @@ const UIForm: FC = () => {
   const success = () => {
     messageApi.open({
       type: "success",
-      content: "Post successfully added (imitation)",
+      content: "Comment successfully added (imitation)",
       style: { marginTop: 50 },
       duration: 2,
     })
@@ -48,6 +60,14 @@ const UIForm: FC = () => {
     })
   }
 
+  /* eslint-disable no-template-curly-in-string */
+  const validateMessages = {
+    types: {
+      email: "${label} is not a valid email!",
+    },
+  }
+  /* eslint-enable no-template-curly-in-string */
+
   return (
     <>
       {contextHolder}
@@ -58,29 +78,30 @@ const UIForm: FC = () => {
         onFinish={handleSubmit}
         autoComplete="off"
         form={form}
+        validateMessages={validateMessages}
       >
         <Form.Item
-          label="Post title"
-          name="title"
-          rules={[{ required: true, message: "Title is required" }]}
+          label="Write your email"
+          name="email"
+          rules={[{ type: "email", required: true }]}
         >
           <Input
-            value={post.title}
-            onChange={(e) => setPost({ ...post, title: e.target.value })}
+            value={comment.email}
+            onChange={(e) => setComment({ ...comment, email: e.target.value })}
           />
         </Form.Item>
 
         <Form.Item
-          label="Post description"
+          label="Comment"
           name="body"
-          rules={[{ required: true, message: "Description is required" }]}
+          rules={[{ required: true, message: "Comment text is required" }]}
         >
           <Input.TextArea
             rows={4}
-            placeholder="Type post description here..."
+            placeholder="Type comment here..."
             style={{ maxHeight: "200px" }}
-            value={post.body}
-            onChange={(e) => setPost({ ...post, body: e.target.value })}
+            value={comment.body}
+            onChange={(e) => setComment({ ...comment, body: e.target.value })}
           />
         </Form.Item>
 
@@ -91,7 +112,7 @@ const UIForm: FC = () => {
             loading={lock}
             disabled={lock}
           >
-            Submit
+            Add
           </Button>
         </Form.Item>
       </Form>
@@ -99,4 +120,4 @@ const UIForm: FC = () => {
   )
 }
 
-export default UIForm
+export default CommentForm

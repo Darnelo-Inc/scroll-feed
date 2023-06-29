@@ -6,7 +6,7 @@ export const jsonApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "https://jsonplaceholder.typicode.com",
   }),
-  tagTypes: ["posts"],
+  tagTypes: ["posts", "comments"],
   endpoints: (build) => ({
     fetchPosts: build.query<IPost[], string>({
       query: (id: string) => ({
@@ -31,21 +31,22 @@ export const jsonApi = createApi({
       query: () => ({ url: "/users" }),
       transformResponse: (response: any) => {
         const data = response as IUser[]
-        return data.map(({ id, name }) => ({ id, name }))
+        return data.map(({ id, name, email }) => ({ id, name, email }))
       },
     }),
 
     fetchPost: build.query<IPost, string>({
-      query: (id: string) => ({ url: `/${id}` }),
+      query: (id: string) => ({ url: `/posts/${id}` }),
     }),
 
     fetchComments: build.query<IComment[], any>({
       query: (id: string) => ({
         url: `/posts/${id}/comments`,
       }),
+      providesTags: (_) => ["posts"],
     }),
 
-    postComment: build.mutation<any, any>({
+    addComment: build.mutation<any, any>({
       query: ({ comment }) => ({
         url: "/comments",
         method: "POST",
@@ -54,6 +55,7 @@ export const jsonApi = createApi({
           "Content-type": "application/json; charset=UTF-8",
         },
       }),
+      invalidatesTags: ["comments"],
     }),
   }),
 })
@@ -64,5 +66,5 @@ export const {
   useFetchUsersQuery,
   useFetchPostQuery,
   useFetchCommentsQuery,
-  usePostCommentMutation,
+  useAddCommentMutation,
 } = jsonApi

@@ -1,11 +1,13 @@
 import { Button, Layout } from "antd"
 import { FC } from "react"
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import css from "../styles/Header.module.css"
 import { useActions } from "hooks/useActions"
 
 const Navbar: FC = () => {
-  const { toggleVisible } = useActions()
+  const { togglePostModal } = useActions()
+  const { path } = useParams()
+  console.log(path)
 
   return (
     <nav className={css.navbar}>
@@ -19,13 +21,13 @@ const Navbar: FC = () => {
               className={css.navItem}
               danger
               type="primary"
-              onClick={() => toggleVisible()}
+              onClick={() => togglePostModal()}
             >
               Create post
             </Button>
 
             <Button className={css.navItem} type="default">
-              <Link className={css.link} to="/">
+              <Link className={css.link} to="/home">
                 Posts
               </Link>
             </Button>

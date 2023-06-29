@@ -10,14 +10,17 @@ const Posts: FC<PostsProps> = ({ searchPosts }) => {
     <>
       {searchPosts.length ? (
         searchPosts.map((post) => (
-          <Link className={css.link} to={`/${post.id}`} key={post.id}>
+          <Link className={css.link} to={`/post/${post.id}`} key={post.id}>
             <Card title={post.title} className={css.card}>
               <p>{post.body}</p>
             </Card>
           </Link>
         ))
       ) : (
-        <UIAlert />
+        <UIAlert
+          title="Posts not found"
+          text="List of posts is empty or failed to load data from the server"
+        />
       )}
     </>
   )

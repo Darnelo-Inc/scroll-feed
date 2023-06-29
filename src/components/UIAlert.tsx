@@ -1,18 +1,14 @@
 import { Alert, Row } from "antd"
 import { FC } from "react"
 import css from "../styles/Home.module.css"
+import { AlertProps } from "models"
 
-const UIAlert: FC = () => {
+const PostModal: FC<AlertProps> = ({ title, text }) => {
   return (
     <Row justify="center" className={css.center}>
-      <Alert
-        message="Posts not found"
-        description="List of posts is empty or failed to load data from the server"
-        type="info"
-        showIcon
-      />
+      <Alert message={title} description={text} type="info" showIcon />
     </Row>
   )
 }
 
-export default UIAlert
+export default PostModal

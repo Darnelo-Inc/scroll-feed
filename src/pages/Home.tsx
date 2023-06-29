@@ -6,7 +6,7 @@ import { useActions } from "../hooks/useActions"
 import { Space, Row, Spin, Select, Input } from "antd"
 
 import css from "../styles/Home.module.css"
-import UIModal from "components/UIModal"
+import PostModal from "components/PostModal"
 import Posts from "components/Posts"
 import UIAlert from "components/UIAlert"
 
@@ -74,9 +74,12 @@ const Home: FC = () => {
           </Space>
         </Row>
       ) : (
-        <UIAlert />
+        <UIAlert
+          title="Posts not found"
+          text="List of posts is empty or failed to load data from the server"
+        />
       )}
-      <UIModal />
+      <PostModal />
     </>
   )
 }

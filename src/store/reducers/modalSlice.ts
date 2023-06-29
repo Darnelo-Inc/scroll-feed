@@ -2,15 +2,20 @@ import { createSlice } from "@reduxjs/toolkit"
 import { IModal } from "models"
 
 const initialState: IModal = {
-  visible: false,
+  postModal: false,
+  commentModal: false,
 }
 
 export const modalSlice = createSlice({
   name: "slice",
   initialState,
   reducers: {
-    toggleVisible: (state) => {
-      state.visible = !state.visible
+    togglePostModal: (state) => {
+      state.postModal = !state.postModal
+    },
+
+    toggleCommentModal: (state) => {
+      state.commentModal = !state.commentModal
     },
   },
 })
