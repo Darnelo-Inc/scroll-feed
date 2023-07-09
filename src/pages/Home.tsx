@@ -1,20 +1,18 @@
-import { ChangeEvent, FC, useEffect, useMemo, useState } from "react"
-import { useAppSelector } from "../hooks/useRedux"
-import { selectPosts } from "../store/selectors"
-import { useFetchPostsQuery, useFetchUsersQuery } from "../API/jsonApi"
-import { useActions } from "../hooks/useActions"
+import { FC, useEffect, useState } from "react"
 import { Space, Row, Spin, Select, Input } from "antd"
-
-import css from "../styles/Home.module.css"
+import { useFetchPostsQuery, useFetchUsersQuery } from "../API/jsonApi"
+import { useSearchedPosts } from "hooks/useSearchedPosts"
+import { useActions } from "../hooks/useActions"
 import PostModal from "components/PostModal"
 import Posts from "components/Posts"
 import UIAlert from "components/UIAlert"
+import { searchHandler, selectHandler } from "utils/postInteractions"
+import css from "../styles/Home.module.css"
 
 const Home: FC = () => {
   const [sort, setSort] = useState<string>("")
   const [search, setSearch] = useState<string>("")
 
-  const posts = useAppSelector(selectPosts)
   const { setPosts } = useActions()
 
   const { data: posts_data, isLoading: posts_loading } =
@@ -22,21 +20,7 @@ const Home: FC = () => {
 
   const { data: users_data = [] } = useFetchUsersQuery()
 
-  const searchHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value)
-  }
-
-  const selectHandler = (value: string) => {
-    setSort(value)
-  }
-
-  const searchPosts = useMemo(() => {
-    return posts?.filter(
-      (post) =>
-        post.body.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
-        post.title.toLocaleLowerCase().includes(search.toLocaleLowerCase())
-    )
-  }, [search, posts])
+  const posts = useSearchedPosts(search)
 
   useEffect(() => {
     setPosts(posts_data)
@@ -60,17 +44,17 @@ const Home: FC = () => {
                     label: user.name,
                   })),
                 ]}
-                onSelect={(value) => selectHandler(value)}
+                onSelect={(value) => selectHandler(value, setSort)}
               />
               <Input
                 placeholder="Find post"
                 style={{ width: 200 }}
                 value={search}
-                onChange={searchHandler}
+                onChange={(e) => searchHandler(e, setSearch)}
                 allowClear
               />
             </Row>
-            <Posts searchPosts={searchPosts} />
+            <Posts searchedPosts={posts} />
           </Space>
         </Row>
       ) : (

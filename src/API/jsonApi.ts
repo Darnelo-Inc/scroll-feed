@@ -2,22 +2,22 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import { IComment, IPost, IUser } from "../models"
 
 export const jsonApi = createApi({
-  reducerPath: "post",
+  reducerPath: "jsonPlaceholder",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://jsonplaceholder.typicode.com",
+    baseUrl: "https://jsonplaceholder.typicode.com/",
   }),
   tagTypes: ["posts", "comments"],
   endpoints: (build) => ({
     fetchPosts: build.query<IPost[], string>({
       query: (id: string) => ({
-        url: "/posts" + id,
+        url: "posts" + id,
       }),
       providesTags: (_) => ["posts"],
     }),
 
     addPost: build.mutation<any, IPost>({
       query: (post) => ({
-        url: "/posts",
+        url: "posts",
         method: "POST",
         body: JSON.stringify(post),
         headers: {
@@ -28,27 +28,26 @@ export const jsonApi = createApi({
     }),
 
     fetchUsers: build.query<IUser[], void>({
-      query: () => ({ url: "/users" }),
-      transformResponse: (response: any) => {
-        const data = response as IUser[]
-        return data.map(({ id, name, email }) => ({ id, name, email }))
+      query: () => ({ url: "users" }),
+      transformResponse: (response: IUser[]) => {
+        return response.map(({ id, name, email }) => ({ id, name, email }))
       },
     }),
 
     fetchPost: build.query<IPost, string>({
-      query: (id: string) => ({ url: `/posts/${id}` }),
+      query: (id: string) => ({ url: `posts/${id}` }),
     }),
 
     fetchComments: build.query<IComment[], any>({
       query: (id: string) => ({
-        url: `/posts/${id}/comments`,
+        url: `posts/${id}/comments`,
       }),
       providesTags: (_) => ["posts"],
     }),
 
     addComment: build.mutation<any, any>({
       query: ({ comment }) => ({
-        url: "/comments",
+        url: "comments",
         method: "POST",
         body: JSON.stringify(comment),
         headers: {
@@ -61,10 +60,10 @@ export const jsonApi = createApi({
 })
 
 export const {
-  useFetchPostsQuery,
-  useAddPostMutation,
-  useFetchUsersQuery,
   useFetchPostQuery,
+  useFetchPostsQuery,
+  useFetchUsersQuery,
   useFetchCommentsQuery,
+  useAddPostMutation,
   useAddCommentMutation,
 } = jsonApi

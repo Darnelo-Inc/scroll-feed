@@ -1,34 +1,25 @@
 import { useState, FC } from "react"
 import { Modal } from "antd"
-import { useActions } from "hooks/useActions"
 import { useAppSelector } from "hooks/useRedux"
+import { useModal } from "hooks/useModal"
+import { useActions } from "hooks/useActions"
 import { selectModal } from "store/selectors"
-import css from "../styles/Modal.module.css"
 import CommentForm from "./CommentForm"
+import css from "../styles/Modal.module.css"
 
 const CommentModal: FC = () => {
   const [confirmLoading, setConfirmLoading] = useState(false)
 
-  const { commentModal } = useAppSelector(selectModal)
   const { toggleCommentModal } = useActions()
 
-  const handleOk = () => {
-    setConfirmLoading(true)
-    setTimeout(() => {
-      toggleCommentModal()
-      setConfirmLoading(false)
-    }, 2000)
-  }
-
-  const handleCancel = () => {
-    toggleCommentModal()
-  }
+  const { commentModal } = useAppSelector(selectModal)
+  const { handleOk, handleCancel } = useModal(toggleCommentModal)
 
   return (
     <Modal
       title="Add comment to the post"
       open={commentModal}
-      onOk={handleOk}
+      onOk={() => handleOk(setConfirmLoading)}
       confirmLoading={confirmLoading}
       onCancel={handleCancel}
       centered

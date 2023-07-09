@@ -1,8 +1,8 @@
-import { Button, Layout } from "antd"
 import { FC } from "react"
+import { Button, Layout } from "antd"
 import { Link, useLocation } from "react-router-dom"
-import css from "../styles/Header.module.css"
 import { useActions } from "hooks/useActions"
+import css from "../styles/Header.module.css"
 
 const Navbar: FC = () => {
   const { togglePostModal } = useActions()

@@ -27,7 +27,7 @@ export interface IUser {
 }
 
 export interface PostsProps {
-  searchPosts: IPost[]
+  searchedPosts: IPost[]
 }
 
 export interface IComment {
@@ -41,4 +41,22 @@ export interface IComment {
 export interface AlertProps {
   title: string
   text?: string
+}
+
+export interface PostProps extends Omit<IPost, "userId"> {}
+
+export interface FullPostProps {
+  post: IPost
+  users: IUser[]
+}
+
+export interface CommentsProps {
+  comments: IComment[]
+}
+
+export interface CommentProps extends Omit<IComment, "name" | "postId"> {}
+
+export interface IRouting {
+  path: string
+  element: any
 }

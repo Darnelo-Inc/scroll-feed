@@ -2,6 +2,7 @@ import { useState, FC } from "react"
 import { Modal } from "antd"
 import { useActions } from "hooks/useActions"
 import { useAppSelector } from "hooks/useRedux"
+import { useModal } from "hooks/useModal"
 import { selectModal } from "store/selectors"
 import PostForm from "./PostForm"
 import css from "../styles/Modal.module.css"
@@ -12,23 +13,13 @@ const PostModal: FC = () => {
   const { postModal } = useAppSelector(selectModal)
   const { togglePostModal } = useActions()
 
-  const handleOk = () => {
-    setConfirmLoading(true)
-    setTimeout(() => {
-      togglePostModal()
-      setConfirmLoading(false)
-    }, 2000)
-  }
-
-  const handleCancel = () => {
-    togglePostModal()
-  }
+  const { handleOk, handleCancel } = useModal(togglePostModal)
 
   return (
     <Modal
       title="Create post"
       open={postModal}
-      onOk={handleOk}
+      onOk={() => handleOk(setConfirmLoading)}
       confirmLoading={confirmLoading}
       onCancel={handleCancel}
       centered

@@ -1,13 +1,13 @@
 import { jsonApi } from "./../API/jsonApi"
 import { configureStore } from "@reduxjs/toolkit"
-import postsSlice from "./reducers/postsSlice"
-import modalSlice from "./reducers/modalSlice"
+import { postsSlice } from "./reducers/postsSlice"
+import { modalSlice } from "./reducers/modalSlice"
 
 export const store = configureStore({
   reducer: {
-    posts: postsSlice,
+    [postsSlice.name]: postsSlice.reducer,
     [jsonApi.reducerPath]: jsonApi.reducer,
-    modal: modalSlice,
+    [modalSlice.name]: modalSlice.reducer,
   },
   middleware: (gdm) => gdm().concat(jsonApi.middleware),
 })

@@ -7,7 +7,7 @@ const initialState: IModal = {
 }
 
 export const modalSlice = createSlice({
-  name: "slice",
+  name: "modal",
   initialState,
   reducers: {
     togglePostModal: (state) => {
@@ -19,5 +19,3 @@ export const modalSlice = createSlice({
     },
   },
 })
-
-export default modalSlice.reducer

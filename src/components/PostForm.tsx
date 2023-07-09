@@ -1,18 +1,15 @@
-import { useAddPostMutation } from "API/jsonApi"
+import { FC, useState } from "react"
 import { Input, Button, Form, message } from "antd"
+import { useAddPostMutation } from "API/jsonApi"
 import { useActions } from "hooks/useActions"
 import { IPost } from "models"
-import { FC, useState } from "react"
+import { addPostMessage, error, errorMessage, success } from "utils/messageApi"
+import { postTemplate } from "utils/templates"
 
 const PostForm: FC = () => {
   const { togglePostModal } = useActions()
 
-  const [post, setPost] = useState<IPost>({
-    title: "",
-    body: "",
-    id: 1,
-    userId: 42,
-  })
+  const [post, setPost] = useState<IPost>(postTemplate)
   const [lock, setLock] = useState<boolean>(false)
 
   const [addPost] = useAddPostMutation()
@@ -25,32 +22,14 @@ const PostForm: FC = () => {
       setLock(true)
       await addPost(post).unwrap()
       togglePostModal()
-      success()
-      setPost({ title: "", body: "", id: 1, userId: 42 })
+      success(addPostMessage, messageApi)
+      setPost(postTemplate)
       form.resetFields()
     } catch (e) {
-      error()
+      error(errorMessage, messageApi)
     } finally {
       setLock(false)
     }
-  }
-
-  const success = () => {
-    messageApi.open({
-      type: "success",
-      content: "Post successfully added (imitation)",
-      style: { marginTop: 50 },
-      duration: 2,
-    })
-  }
-
-  const error = () => {
-    messageApi.open({
-      type: "error",
-      content: "Something went wrong...",
-      style: { marginTop: 50 },
-      duration: 2,
-    })
   }
 
   return (

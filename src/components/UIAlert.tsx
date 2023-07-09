@@ -1,7 +1,7 @@
-import { Alert, Row } from "antd"
 import { FC } from "react"
-import css from "../styles/Home.module.css"
+import { Alert, Row } from "antd"
 import { AlertProps } from "models"
+import css from "../styles/Home.module.css"
 
 const PostModal: FC<AlertProps> = ({ title, text }) => {
   return (

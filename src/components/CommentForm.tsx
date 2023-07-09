@@ -1,21 +1,22 @@
-import { useAddCommentMutation } from "API/jsonApi"
+import { FC, useState } from "react"
 import { Input, Button, Form, message } from "antd"
+import { useAddCommentMutation } from "API/jsonApi"
 import { useActions } from "hooks/useActions"
 import { IComment } from "models"
-import { FC, useState } from "react"
+import { commentTemplate } from "utils/templates"
+import {
+  addCommentMessage,
+  error,
+  errorMessage,
+  success,
+  validateMessages,
+} from "utils/messageApi"
 
 const CommentForm: FC = () => {
-  const { toggleCommentModal } = useActions()
-
-  const [comment, setComment] = useState<IComment>({
-    name: "",
-    email: "",
-    body: "",
-    id: 1,
-    postId: 42,
-  })
+  const [comment, setComment] = useState<IComment>(commentTemplate)
   const [lock, setLock] = useState<boolean>(false)
 
+  const { toggleCommentModal } = useActions()
   const [addComment] = useAddCommentMutation()
 
   const [form] = Form.useForm()
@@ -26,47 +27,15 @@ const CommentForm: FC = () => {
       setLock(true)
       await addComment(comment).unwrap()
       toggleCommentModal()
-      success()
-      setComment({
-        name: "",
-        email: "",
-        body: "",
-        id: 1,
-        postId: 42,
-      })
+      success(addCommentMessage, messageApi)
+      setComment(commentTemplate)
       form.resetFields()
     } catch (e) {
-      error()
+      error(errorMessage, messageApi)
     } finally {
       setLock(false)
     }
   }
-
-  const success = () => {
-    messageApi.open({
-      type: "success",
-      content: "Comment successfully added (imitation)",
-      style: { marginTop: 50 },
-      duration: 2,
-    })
-  }
-
-  const error = () => {
-    messageApi.open({
-      type: "error",
-      content: "Something went wrong...",
-      style: { marginTop: 50 },
-      duration: 2,
-    })
-  }
-
-  /* eslint-disable no-template-curly-in-string */
-  const validateMessages = {
-    types: {
-      email: "${label} is not a valid email!",
-    },
-  }
-  /* eslint-enable no-template-curly-in-string */
 
   return (
     <>
