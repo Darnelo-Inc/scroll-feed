@@ -6,6 +6,8 @@
 
 .title {
   margin-bottom: 16px;
+
+  font-size: 1.24rem;
 }
 
 .title::first-letter {

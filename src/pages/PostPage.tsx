@@ -34,7 +34,7 @@ const PostPage: FC = () => {
         <Col className={css.postPage}>
           {post && (
             <section>
-              <h3 className={css.title}>{post.title}</h3>
+              <h1 className={css.title}>{post.title}</h1>
 
               <hr />
 
