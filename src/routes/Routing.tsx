@@ -5,7 +5,7 @@ import PostPage from "pages/PostPage"
 const Routing = () => {
   return (
     <Routes>
-      <Route path="/home" element={<Home />} />
+      <Route path="/" element={<Home />} />
       <Route path="/post/:id" element={<PostPage />} />
       <Route path="/*" element={<Home />} />
     </Routes>

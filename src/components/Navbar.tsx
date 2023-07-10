@@ -16,7 +16,7 @@ const Navbar: FC = () => {
             <h3 className={css["brand-font"]}>Scroll Feed</h3>
           </div>
           <div className={css.navMenu}>
-            {pathname === "/home" && (
+            {pathname === "/" && (
               <Button
                 className={css.navItem}
                 danger
@@ -28,7 +28,7 @@ const Navbar: FC = () => {
             )}
 
             <Button className={css.navItem} type="default">
-              <Link className={css.link} to="/home">
+              <Link className={css.link} to="/">
                 Posts
               </Link>
             </Button>
